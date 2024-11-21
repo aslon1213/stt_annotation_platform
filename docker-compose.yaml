@@ -9,6 +9,9 @@ services:
     ports:
       - "8001:8080"
 
+    networks:
+      - consultant_ai
+
     
   stt:
     build: 
@@ -16,6 +19,8 @@ services:
       dockerfile: dockerfiles/dockerfile.python
     ports:
     - "8002:8000"
+    networks:
+       - consultant_ai
       
 
   minio:
@@ -40,3 +45,7 @@ services:
 
 volumes:
   minio_data:
+
+networks:
+  consultant_ai:
+    external: true
