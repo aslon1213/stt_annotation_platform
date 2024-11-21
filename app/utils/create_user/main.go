@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"stt_work/app/handlers"
-	"stt_work/app/initializers"
+	"stt_work/handlers"
+	"stt_work/initializers"
 )
 
 func main() {

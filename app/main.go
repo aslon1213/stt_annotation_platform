@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"stt_work/app/handlers"
-	"stt_work/app/initializers"
+	"stt_work/handlers"
+	"stt_work/initializers"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
