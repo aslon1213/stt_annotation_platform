@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+
+        .job-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .job {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .job h3 {
+            margin: 0 0 10px;
+            color: #007BFF;
+        }
+
+        .job audio {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .job label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #555555;
+        }
+
+        .job textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none;
+        }
+
+        .job textarea:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .job button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .job button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Job List</h1>
+    <div class="job-container">
+        {% for job in jobs %}
+        <div class="job">
+            <h3>Job # - {{job.ID.Hex() }} {{ forloop.counter }}</h3>
+            <audio controls>
+                <source src="/audios/{{ job.AudioID.Hex() }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p>{{ job.STTtranscript}}</p>
+
+            <form action="/jobs/done/{{ job.ID.Hex() }}" method="post">
+                <label for="transcription-{{ forloop.counter }}">Edit the transcription:</label>
+                {% if job.STTtranscript %}
+                <textarea name="transcription">{{ job.STTtranscript}}</textarea>
+                {% else %}
+                <textarea id="transcription-{{ forloop.counter }}" placeholder="Transcription Empty - please fill it in"
+                    name="transcription"></textarea>
+                {% endif %}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        {% empty %}
+        <p>No jobs available at the moment.</p>
+        {% endfor %}
+    </div>
+
+
+</body>
+
+</html>
