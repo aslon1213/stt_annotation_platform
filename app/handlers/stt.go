@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"stt_work/app/models"
+	"stt_work/models"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/minio/minio-go/v7"

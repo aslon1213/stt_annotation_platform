@@ -9,9 +9,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"stt_work/app/handlers"
-	"stt_work/app/initializers"
-	"stt_work/app/models"
+	"stt_work/handlers"
+	"stt_work/initializers"
+	"stt_work/models"
 	"sync"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"

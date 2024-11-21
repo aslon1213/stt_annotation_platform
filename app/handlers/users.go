@@ -3,7 +3,7 @@ package handlers
 import (
 	"fmt"
 	"os"
-	"stt_work/app/models"
+	"stt_work/models"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
