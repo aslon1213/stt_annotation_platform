@@ -15,7 +15,7 @@ services:
     
   stt:
     build: 
-      context: .
+      context: ./app
       dockerfile: dockerfiles/dockerfile.python
     ports:
     - "8002:8000"
