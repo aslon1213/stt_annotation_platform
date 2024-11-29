@@ -10,6 +10,7 @@ import (
 	"github.com/minio/minio-go/v7"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func (h *Handlers) GetJob(c *fiber.Ctx) error {
@@ -18,7 +19,9 @@ func (h *Handlers) GetJob(c *fiber.Ctx) error {
 
 func (h *Handlers) GetJobs(c *fiber.Ctx) error {
 
-	cursor, err := h.jobs.Find(h.ctx, bson.M{})
+	cursor, err := h.jobs.Find(h.ctx, bson.M{
+		"human_processed": true,
+	}, options.Find().SetLimit(50))
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"error": err.Error(),
@@ -115,6 +118,7 @@ func (h *Handlers) CreateJob(job *models.Job, audio *models.Audio) error {
 	}
 
 	_, err = h.jobs.InsertOne(h.ctx, job)
+	fmt.Println("Inserted Job:")
 
 	if err != nil {
 		return err

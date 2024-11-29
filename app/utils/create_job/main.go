@@ -120,7 +120,7 @@ func main() {
 	// Create job channel and worker pool
 	jobs := make(chan []string, len(files.Files))
 	var wg sync.WaitGroup
-	numWorkers := 4 // Number of workers (adjust as needed)
+	numWorkers := 10 // Number of workers (adjust as needed)
 
 	// Start workers
 	for i := 0; i < numWorkers; i++ {

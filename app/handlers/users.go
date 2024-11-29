@@ -10,6 +10,7 @@ import (
 	"github.com/golang-jwt/jwt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -75,7 +76,7 @@ func (h *Handlers) IndexPage(c *fiber.Ctx) error {
 	jobs := []models.Job{}
 	cursor, err := h.jobs.Find(h.ctx, bson.M{
 		"human_processed": false,
-	})
+	}, options.Find().SetLimit(50))
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"error": "Internal server error",

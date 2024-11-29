@@ -13,7 +13,7 @@ import (
 func main() {
 
 	// Create a new engine
-	engine := django.New("app/views", ".django")
+	engine := django.New("views", ".django")
 	app := fiber.New(
 		fiber.Config{
 			Views: engine,
@@ -25,7 +25,7 @@ func main() {
 	// Or extend your config for customization
 	// Logging remote IP and Port
 	app.Use(logger.New(logger.Config{
-		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
+		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n", //
 	}))
 	// init mongo client
 	// os.Getenv("MONGO_URI")
@@ -35,6 +35,8 @@ func main() {
 
 	minioClient := initializers.NewMinio(ctx)
 	hls := handlers.NewHandlers(client.Database("stt_works"), minioClient)
+
+	app.Get("/metrics", hls.AuthMiddleware, hls.Metrics)
 
 	jobs := app.Group("/jobs")
 	users := app.Group("/users")
@@ -52,5 +54,6 @@ func main() {
 	jobs.Get("/:id", hls.AuthMiddleware, hls.GetJob)
 	jobs.Get("/", hls.AuthMiddleware, hls.GetJobs)
 	jobs.Post("/done/:id", hls.AuthMiddleware, hls.JobDone)
+
 	app.Listen(":8080")
 }
