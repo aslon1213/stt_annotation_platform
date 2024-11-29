@@ -122,6 +122,7 @@ func (h *Handlers) CreateJob(job *models.Job, audio *models.Audio) error {
 	}
 
 	_, err = h.jobs.InsertOne(h.ctx, job)
+	fmt.Println("Inserted Job:")
 
 	if err != nil {
 		return err

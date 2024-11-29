@@ -2,6 +2,7 @@ package initializers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -20,7 +21,9 @@ func LoadEnvs() {
 }
 
 func NewMongo(ctx context.Context) *mongo.Client {
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGO_URI")))
+	fmt.Println("MONGO_URI", os.Getenv("MONGO_URI"))
+	// MONGO_URI="mongodb://admin:admin@localhost:27017"
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://admin:admin@10.10.100.10:27017"))
 	if err != nil {
 		panic(err)
 	}
@@ -33,6 +36,8 @@ func NewMinio(ctx context.Context) *minio.Client {
 	endpoint := os.Getenv("MINIO_ENDPOINT") // Replace with your MinIO server
 	accessKeyID := os.Getenv("MINIO_ACCESS_KEY")
 	secretAccessKey := os.Getenv("MINIO_SECRET_KEY")
+
+	fmt.Println("MINIO_ENDPOINT", endpoint)
 	// useSSL := false
 
 	minioClient, err := minio.New(endpoint, &minio.Options{

@@ -61,7 +61,7 @@ func (h *Handlers) GetAudio(c *fiber.Ctx) error {
 	fmt.Println("bucket_name: ", bucket_name)
 
 	object_id := c.Params("id")
-
+	// fmt.Println("minio url ", minio.Version)
 	obj, err := h.minio.GetObject(h.ctx, bucket_name, object_id, minio.GetObjectOptions{})
 	if err != nil {
 		c.Status(500).JSON(fiber.Map{
