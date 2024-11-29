@@ -2,25 +2,25 @@ version: '3'
 
 services:
 
-  stt_works:
-    build:
-      context: ./app
-      dockerfile: dockerfiles/dockerfile.golang
-    ports:
-      - "8003:8080"
-
-    networks:
-      - consultant_ai
+  #stt_works:
+  #  build:
+  #    context: ./app
+  #    dockerfile: dockerfiles/dockerfile.golang
+  #  ports:
+  #    - "8003:8080"
+  #
+  #  networks:
+  #    - consultant_ai
 
     
-  stt:
-    build: 
-      context: ./app
-      dockerfile: dockerfiles/dockerfile.python
-    ports:
-    - "8002:8000"
-    networks:
-       - consultant_ai
+  # stt:
+  #  build: 
+  #    context: ./app
+  #    dockerfile: dockerfiles/dockerfile.python
+  #  ports:
+    #  - "8002:8000"
+    #   networks:
+    #   - consultant_ai
       
 
   minio:

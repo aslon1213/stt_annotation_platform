@@ -100,9 +100,6 @@
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
-        <div class="link">
-            <p>Don't have an account? <a href="/register">Register here</a></p>
-        </div>
     </div>
 </body>
 

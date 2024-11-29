@@ -13,7 +13,7 @@ import (
 func main() {
 
 	// Create a new engine
-	engine := django.New("app/views", ".django")
+	engine := django.New("views", ".django")
 	app := fiber.New(
 		fiber.Config{
 			Views: engine,
@@ -52,5 +52,5 @@ func main() {
 	jobs.Get("/:id", hls.AuthMiddleware, hls.GetJob)
 	jobs.Get("/", hls.AuthMiddleware, hls.GetJobs)
 	jobs.Post("/done/:id", hls.AuthMiddleware, hls.JobDone)
-	app.Listen(":8080")
+	app.Listen(":8002")
 }

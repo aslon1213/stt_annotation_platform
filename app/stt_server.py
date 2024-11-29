@@ -6,7 +6,7 @@ from faster_whisper import WhisperModel
 
 model = WhisperModel(
     "aslon1213/whisper-small-uz-with-uzbekvoice-ct2",
-    # device="cuda",
+     device="cuda",
 )
 import io
 

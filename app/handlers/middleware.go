@@ -18,7 +18,8 @@ type TokenValues struct {
 var connected_users_tokens = map[string]TokenValues{}
 
 func (h *Handlers) AuthMiddleware(c *fiber.Ctx) error {
-
+	// c.Next()
+	// return nil
 	tokenString := c.Cookies("Authorization", "")
 	// fmt.Println("Cookies", string(c.Request().Header.Header()))
 	if tokenString == "" {
