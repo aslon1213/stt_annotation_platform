@@ -12,7 +12,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func (h *Handlers) LoginPage(c *fiber.Ctx) error {

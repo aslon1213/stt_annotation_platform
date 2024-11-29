@@ -13,19 +13,29 @@ func (h *Handlers) Metrics(c *fiber.Ctx) error {
 	// jobs which are done
 
 	jobs_processed := []models.Job{}
+	jobs_unprocessed := []models.Job{}
+	all_jobs := []models.Job{}
 
-	cur, err := h.jobs.Find(h.ctx, bson.M{"human_processed": true})
+	cur, err := h.jobs.Find(h.ctx, bson.M{})
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"error": err.Error(),
+			"error 1": err.Error(),
 		})
 	}
 	defer cur.Close(h.ctx)
-	err = cur.All(h.ctx, &jobs_processed)
+	err = cur.All(h.ctx, &all_jobs)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
-			"error": err.Error(),
+			"error 2": err.Error(),
 		})
+	}
+
+	for _, job := range all_jobs {
+		if job.HumanProcessed {
+			jobs_processed = append(jobs_processed, job)
+		} else {
+			jobs_unprocessed = append(jobs_unprocessed, job)
+		}
 	}
 
 	number_of_processed_jobs := len(jobs_processed)
@@ -37,21 +47,29 @@ func (h *Handlers) Metrics(c *fiber.Ctx) error {
 			user_to_jobs_done[job.WorkerID] = 1
 		}
 	}
-	users_name_to_jobs_done := map[string]int{}
+	type UserNameToJob struct {
+		Username string
+		Jobsdone int
+	}
+	users_name_to_jobs_done := []UserNameToJob{}
 	for user_id, jobs_done := range user_to_jobs_done {
 		user := models.User{}
-		err := h.users.FindOne(h.ctx, bson.M{"_id": user_id}).Decode(&user)
+		err := h.users.FindOne(h.ctx, bson.M{
+			"_id": user_id,
+		}).Decode(&user)
 		if err != nil {
-			return c.Status(500).JSON(fiber.Map{
-				"error": err.Error(),
-			})
+			continue
 		}
-		users_name_to_jobs_done[user.Username] = jobs_done
+		users_name_to_jobs_done = append(users_name_to_jobs_done, UserNameToJob{
+			Username: user.Username,
+			Jobsdone: jobs_done,
+		})
 	}
 
-	return c.JSON(fiber.Map{
-		"number_of_processed_jobs": number_of_processed_jobs,
-		"users_name_to_jobs_done":  users_name_to_jobs_done,
-	},
-	)
+	return c.Render("metrics", fiber.Map{
+		"number_of_processed_jobs":   number_of_processed_jobs,
+		"number_of_unprocessed_jobs": len(jobs_unprocessed),
+		"all_jobs":                   len(all_jobs),
+		"users_name_to_jobs_done":    users_name_to_jobs_done,
+	})
 }

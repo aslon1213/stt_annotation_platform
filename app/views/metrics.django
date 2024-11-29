@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Processing Summary</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Job Processing Summary</h1>
+    
+    <p><strong>Number of Total Jobs:</strong> {{ all_jobs }}</p>
+    <p><strong>Number of Processed Jobs:</strong> {{ number_of_processed_jobs }}</p>
+    <p><strong>Number of Unprocessed Jobs:</strong> {{ number_of_unprocessed_jobs }}</p>
+
+    <h2>Users and Jobs Done</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Jobs Done</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in users_name_to_jobs_done %}
+            <tr>
+                <td>{{ object.Username }}</td>
+                <td>{{ object.Jobsdone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
